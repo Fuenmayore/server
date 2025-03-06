@@ -4,7 +4,7 @@ const mysql = require("mysql2");
 
 const app = express();
 const port = process.env.PORT || 8080; // ✅ Puerto correcto
-require("dotenv").config({ path: __dirname + "/.env" });
+
 
 
 // Verifica que las variables de entorno se carguen correctamente
