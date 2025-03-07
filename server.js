@@ -49,11 +49,12 @@ app.post("/gps", (req, res) => {
     db.query(sql, [id_dispositivo, latitud, longitud, velocidad], (err, result) => {
         if (err) {
             console.error("❌ Error al insertar datos:", err);
-            return res.status(500).json({ error: "Error al guardar la ubicación" });
+            return res.status(500).json({ error: "Error al guardar la ubicación", details: err.message });
         }
         res.json({ success: true, message: "Ubicación guardada" });
     });
 });
+
 
 // 📌 Endpoint para consultar la última ubicación
 app.get("/gps/:id_dispositivo", (req, res) => {
