@@ -80,3 +80,7 @@ app.listen(port, () => {
 });
 
 console.log(app._router.stack.map(r => r.route?.path).filter(Boolean));
+
+setInterval(() => {
+    console.log("✅ Keep-Alive: Servidor sigue activo");
+}, 60000); // Cada 60 segundos
