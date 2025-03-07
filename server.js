@@ -78,3 +78,5 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
     console.log(`✅ Servidor corriendo en el puerto ${port}`);
 });
+
+console.log(app._router.stack.map(r => r.route?.path).filter(Boolean));
