@@ -1,11 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2");
+const axios = require("axios"); // Importa axios para realizar la solicitud de IP
 
 const app = express();
 const port = process.env.PORT || 8080; // ✅ Puerto correcto
-
-
 
 // Verifica que las variables de entorno se carguen correctamente
 console.log("🔹 DB_HOST:", process.env.DB_HOST);
@@ -13,7 +12,6 @@ console.log("🔹 DB_USER:", process.env.DB_USER);
 console.log("🔹 DB_PASS:", process.env.DB_PASS);
 console.log("🔹 DB_NAME:", process.env.DB_NAME);
 console.log("🔹 DB_PORT:", process.env.DB_PORT);
-
 
 require("dotenv").config({ path: __dirname + "/.env" });
 
@@ -56,8 +54,6 @@ app.post("/gps", (req, res) => {
     });
 });
 
-
-
 // 📌 Endpoint para consultar la última ubicación
 app.get("/gps/:id_dispositivo", (req, res) => {
     const { id_dispositivo } = req.params;
@@ -72,10 +68,21 @@ app.get("/gps/:id_dispositivo", (req, res) => {
     });
 });
 
+// 📌 Endpoint para obtener la IP pública del servidor
+app.get("/ip", async (req, res) => {
+    try {
+        const response = await axios.get("https://api.ipify.org?format=json");
+        const ip = response.data.ip;
+        res.json({ ip: ip });
+    } catch (error) {
+        console.error("❌ Error al obtener la IP:", error);
+        res.status(500).json({ error: "No se pudo obtener la IP" });
+    }
+});
+
 app.get("/", (req, res) => {
     res.send("🚀 Servidor funcionando correctamente en Railway");
 });
-
 
 // 📌 Iniciar el servidor
 app.listen(port, () => {
@@ -87,4 +94,3 @@ console.log(app._router.stack.map(r => r.route?.path).filter(Boolean));
 setInterval(() => {
     console.log("✅ Keep-Alive: Servidor sigue activo");
 }, 60000); // Cada 60 segundos
-
