@@ -85,5 +85,3 @@ setInterval(() => {
     console.log("✅ Keep-Alive: Servidor sigue activo");
 }, 60000); // Cada 60 segundos
 
-const cors = require("cors");
-app.use(cors());
