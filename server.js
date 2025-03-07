@@ -69,6 +69,11 @@ app.get("/gps/:id_dispositivo", (req, res) => {
     });
 });
 
+app.get("/", (req, res) => {
+    res.send("🚀 Servidor funcionando correctamente en Railway");
+});
+
+
 // 📌 Iniciar el servidor
 app.listen(port, () => {
     console.log(`✅ Servidor corriendo en el puerto ${port}`);
