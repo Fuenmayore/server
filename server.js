@@ -39,14 +39,15 @@ app.use(express.json());
 
 // 📌 Endpoint para recibir datos del GPS
 app.post("/gps", (req, res) => {
-    const { latitud, longitud, velocidad, id_dispositivo } = req.body;
+    const { id, latitud, longitud, velocidad, id_dispositivo } = req.body;
 
-    if (!latitud || !longitud || !id_dispositivo) {
+    if (!id || !latitud || !longitud || !id_dispositivo) {
         return res.status(400).json({ error: "Faltan datos" });
     }
 
-    const sql = "INSERT INTO ubicaciones (id_dispositivo, latitud, longitud, velocidad, fecha) VALUES (?, ?, ?, ?, NOW())";
-    db.query(sql, [id_dispositivo, latitud, longitud, velocidad], (err, result) => {
+    // Aquí incluimos el campo 'id' en la inserción
+    const sql = "INSERT INTO ubicaciones (id, id_dispositivo, latitud, longitud, velocidad, fecha) VALUES (?, ?, ?, ?, ?, NOW())";
+    db.query(sql, [id, id_dispositivo, latitud, longitud, velocidad], (err, result) => {
         if (err) {
             console.error("❌ Error al insertar datos:", err);
             return res.status(500).json({ error: "Error al guardar la ubicación", details: err.message });
@@ -54,6 +55,7 @@ app.post("/gps", (req, res) => {
         res.json({ success: true, message: "Ubicación guardada" });
     });
 });
+
 
 
 // 📌 Endpoint para consultar la última ubicación
